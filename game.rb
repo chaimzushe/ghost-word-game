@@ -1,14 +1,16 @@
 require 'byebug'
 require_relative './player'
+require 'set'
 class Game
 
   attr_reader :dictionary, :players
   attr_accessor :fragment
 
   def initialize(*players)
-    @dictionary = File.readlines('dictionary.txt').map(&:chomp)
+    @dictionary = Set.new(File.readlines('dictionary.txt').map(&:chomp))
     @players = players
     @fragment = ""
+    debugger
   end
 
   def display_score
