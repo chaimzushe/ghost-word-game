@@ -10,7 +10,7 @@ class Game
     @dictionary = Set.new(File.readlines('dictionary.txt').map(&:chomp))
     @players = players
     @fragment = ""
-    debugger
+
   end
 
   def display_score
@@ -63,10 +63,8 @@ class Game
   def take_turn(player)
     char = nil
     until valid_play(char)
-      system('clear')
       puts "#{current_player.name}, that's not a valid guess. Try again" if char != nil
-      puts "#{current_player.name}, please enter a char, to add on to '#{fragment}'. do Not complete the word! "
-      char = player.guess
+      char = player.guess(@fragment)
     end
     @fragment += char
   end

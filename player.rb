@@ -6,7 +6,10 @@ class Player
     @letters = ""
   end
 
-  def guess
+  def guess(fragment)
+    system('clear')
+
+    puts "#{self.name}, please enter a char, to add on to '#{fragment}'. do Not complete the word! "
     char = gets.chomp
   end
 
