@@ -1,8 +1,8 @@
 require 'byebug'
 require_relative './player'
 require 'set'
-class Game
 
+class Game
   attr_reader :dictionary, :players
   attr_accessor :fragment
 
@@ -10,7 +10,6 @@ class Game
     @dictionary = Set.new(File.readlines('dictionary.txt').map(&:chomp))
     @players = players
     @fragment = ""
-
   end
 
   def display_score
@@ -25,11 +24,14 @@ class Game
       self.restart if lost_round?
       next_player!
     end
-    puts "#{current_player.name}. you won!"
+    puts "#{winner.name}. you won!"
+  end
+
+  def winner
+    players.find{ |player| !player.eliminated}
   end
 
   def restart
-
     current_player.add_letter!
     @fragment = ""
     display_score
@@ -70,9 +72,8 @@ class Game
   end
 
   def valid_play(char)
-    ('A'..'z').include?(char) &&  dictionary.any?{ |word| word.start_with?(fragment + char) }
+    Set.new(('A'..'z')).include?(char) && dictionary.any?{ |word| word.start_with?(fragment + char) }
   end
-
 
 
 end
