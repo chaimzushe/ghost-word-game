@@ -5,9 +5,9 @@ class Game
   attr_reader :dictionary, :players
   attr_accessor :fragment
 
-  def initialize
+  def initialize(*players)
     @dictionary = File.readlines('dictionary.txt').map(&:chomp)
-    @players = [Player.new("moshe"), Player.new("mendy")]
+    @players = players
     @fragment = ""
   end
 
@@ -27,8 +27,11 @@ class Game
   end
 
   def restart
+
     current_player.add_letter!
     @fragment = ""
+    display_score
+    sleep(2)
   end
 
   def lost_round?
@@ -40,7 +43,6 @@ class Game
   end
 
   def game_over?
-
     @players.reject{ |player| player.eliminated}.size == 1
   end
 
@@ -60,7 +62,6 @@ class Game
     char = nil
     until valid_play(char)
       system('clear')
-      display_score
       puts "#{current_player.name}, that's not a valid guess. Try again" if char != nil
       puts "#{current_player.name}, please enter a char, to add on to '#{fragment}'. do Not complete the word! "
       char = player.guess
@@ -76,5 +77,6 @@ class Game
 
 end
 
-
-Game.new.play_round
+player1 = Player.new("fredrick")
+player2 = Player.new("gimple")
+Game.new(player1, player2).play_round
